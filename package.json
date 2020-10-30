@@ -1,0 +1,8 @@
+{
+  "name": "unit-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/NJRezini/unit-test.git",
+  "author": "Nathan Rezini <nathanrezini@gmail.com>",
+  "license": "MIT"
+}
