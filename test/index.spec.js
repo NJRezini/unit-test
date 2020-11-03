@@ -3,6 +3,7 @@ const http = require('chai-http'); // Extensão da lib chai p/ simular requisiç
 const subSet = require('chai-subset'); // Extensao da lib chai p/ verificar objetos
 
 const index = require('../index'); // Arquivo a ser testado
+const controller = require('../controller'); // Arquivo a ser testado
 
 chai.use(http);
 chai.use(subSet);
@@ -11,13 +12,14 @@ chai.use(subSet);
 // O atributo recebe uma função, e ela deve retornar true para o teste passar
 const alunoSchema = {
     nome: nome => nome,
-    sala: sala => sala
+    sala: sala => sala,
+    ano: ano => ano
 };
 
 describe('Teste das funcoes', () => {
 
     it('addAluno', () => {
-        const aluno = index.addAluno('matheus', 'sala 1');
+        const aluno = controller.addAluno('matheus', 'sala 1', '8°');
 
         // Verifica se as caracteristicas do objeto aluno é igual ao alunoSchema
         chai.expect(aluno).to.containSubset(alunoSchema);
@@ -25,9 +27,9 @@ describe('Teste das funcoes', () => {
 
     it('getAlunos', () => {
 
-        index.addAluno('osmar', 'sala 1');
-        index.addAluno('mariana', 'sala 2');
-        const alunos = index.getAlunos();
+        controller.addAluno('osmar', 'sala 1', '9°');
+        controller.addAluno('mariana', 'sala 2', '7°');
+        const alunos = controller.getAlunos();
         
         chai.expect(alunos.length).to.be.equals(3);
         // Primeiro se verifica se está retornando um array
@@ -43,7 +45,8 @@ describe('Testes de integração', () => {
             .post('/aluno') // Rota
             .send({
                 nome: 'ivete',
-                sala: 'sala 2'
+                sala: 'sala 2',
+                ano: '8°'
             })
             .end((err, res) => {
                 chai.expect(err).to.be.null; // Sem erros
